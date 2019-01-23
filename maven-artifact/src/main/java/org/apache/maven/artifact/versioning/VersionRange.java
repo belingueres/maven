@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.apache.maven.artifact.Artifact;
@@ -34,7 +35,8 @@ import org.apache.maven.artifact.Artifact;
  */
 public class VersionRange
 {
-    private static final WeakHashMap<String, VersionRange> CACHE = new WeakHashMap<>();
+    private static final Map<String, VersionRange> CACHE =
+        Collections.<String, VersionRange>synchronizedMap( new WeakHashMap<String, VersionRange>() );
 
     private final ArtifactVersion recommendedVersion;
 
