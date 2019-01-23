@@ -57,6 +57,11 @@ public class VersionRange
         return restrictions;
     }
 
+    /**
+     * @deprecated VersionRange is immutable, cloning is not useful and even more an issue against the cache 
+     * @return a clone
+     */
+    @Deprecated
     public VersionRange cloneOf()
     {
         List<Restriction> copiedRestrictions = null;
