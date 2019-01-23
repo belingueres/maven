@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import org.apache.maven.artifact.Artifact;
 
@@ -33,6 +34,8 @@ import org.apache.maven.artifact.Artifact;
  */
 public class VersionRange
 {
+    private static final WeakHashMap<String, VersionRange> CACHE = new WeakHashMap<>();
+
     private final ArtifactVersion recommendedVersion;
 
     private final List<Restriction> restrictions;
@@ -97,6 +100,12 @@ public class VersionRange
             return null;
         }
 
+        VersionRange cached = CACHE.get( spec );
+        if ( cached != null )
+        {
+            return cached;
+        }
+
         List<Restriction> restrictions = new ArrayList<>();
         String process = spec;
         ArtifactVersion version = null;
@@ -159,7 +168,9 @@ public class VersionRange
             }
         }
 
-        return new VersionRange( version, restrictions );
+        cached = new VersionRange( version, restrictions );
+        CACHE.put( spec, new VersionRange( version, restrictions ) );
+        return cached;
     }
 
     private static Restriction parseRestriction( String spec )
