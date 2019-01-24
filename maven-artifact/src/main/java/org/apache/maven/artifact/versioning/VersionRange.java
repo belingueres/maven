@@ -176,7 +176,7 @@ public class VersionRange
         }
 
         cached = new VersionRange( version, restrictions );
-        CACHE.put( spec, new VersionRange( version, restrictions ) );
+        CACHE.put( spec, cached );
         return cached;
     }
 
