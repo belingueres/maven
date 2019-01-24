@@ -236,8 +236,13 @@ public class VersionRange
 
     public static VersionRange createFromVersion( String version )
     {
-        List<Restriction> restrictions = Collections.emptyList();
-        return new VersionRange( new DefaultArtifactVersion( version ), restrictions );
+        VersionRange cached = CACHE.get( version );
+        if ( cached == null )
+        {
+            List<Restriction> restrictions = Collections.emptyList();
+            cached = new VersionRange( new DefaultArtifactVersion( version ), restrictions );
+        }
+        return cached;
     }
 
     /**
